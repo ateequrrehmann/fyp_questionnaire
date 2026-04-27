@@ -2,9 +2,14 @@ import asyncio
 import os
 import subprocess
 import time
+import sys
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# Import FastAPI app for deployment
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from app.main import app
 
 async def start_mcp_server():
     mcp_process = subprocess.Popen(
