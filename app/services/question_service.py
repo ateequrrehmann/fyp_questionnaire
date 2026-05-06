@@ -16,15 +16,16 @@ class QuestionGenerationService:
         self.groq_base_url = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
         self.reasoning_model = os.getenv("GROQ_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")
 
-        if not self.groq_api_key:
-            raise ValueError("GROQ_API_KEY is not configured")
-        
-        self.llm = ChatOpenAI(
-            model=self.reasoning_model,
-            api_key=self.groq_api_key,
-            base_url=self.groq_base_url,
-            temperature=0.2
-        )
+        if self.groq_api_key:
+            self.llm = ChatOpenAI(
+                model=self.reasoning_model,
+                api_key=self.groq_api_key,
+                base_url=self.groq_base_url,
+                temperature=0.2
+            )
+        else:
+            self.llm = None
+            print("Warning: GROQ_API_KEY is not configured; using fallback question generation")
 
     def _heuristic_language_and_validity(self, text: str) -> Dict[str, Any]:
         normalized = (text or "").strip()

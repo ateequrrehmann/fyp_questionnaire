@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from app.main import app
+
 async def start_mcp_server():
     mcp_process = subprocess.Popen(
         ["python", "mcp_server/server.py"],
